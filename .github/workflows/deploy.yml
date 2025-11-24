@@ -1,0 +1,55 @@
+name: Auto Deploy to Apache Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: 2200
+          script: |
+            cd /var/www/domendolar/carpart
+
+            echo "🔧 Loading NVM..."
+            export NVM_DIR="$HOME/.nvm"
+            source "$NVM_DIR/nvm.sh"
+            source "$NVM_DIR/bash_completion" || true
+
+            echo "Node version: $(node -v)"
+            echo "NPM version: $(npm -v)"
+            echo "PM2 version: $(pm2 -v)"
+
+            echo "🔁 Pulling latest code..."
+            git fetch --all
+            git reset --hard origin/main
+
+            echo "🧹 Cleaning old build..."
+            rm -rf .next
+
+            echo "🛑 Stopping existing PM2 process (if any)..."
+            pm2 stop carpart || true
+            pm2 delete carpart
+
+            echo "📦 Installing dependencies..."
+            npm ci
+
+            echo "⚙️ Rebuilding Next.js app..."
+            npm run build
+
+            echo "🚀 Restarting PM2 process..."
+            pm2 start npm --name "carpart" -- start
+            pm2 save
+
+            echo "✅ Deployment completed successfully!"
