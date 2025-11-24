@@ -29,4 +29,8 @@ body {
   .button {
     @apply bg-light-gray p-2 rounded-md;
   }
+
+  .authSection {
+    @apply bg-shaddy-blue w-lg m-auto text-center;
+  }
 }

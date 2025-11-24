@@ -11,16 +11,16 @@ const NavBar = () => {
                 </Link>
 
                 <div className="flex items-center gap-5">
-                        <Link href="">
-                            <button className="button" type="submit">
+                        <Link href="/login">
+                            <span className="button">
                                 Login
-                            </button>
+                            </span>
                         </Link>
 
                         <Link href="">
-                            <button className="button" type="submit">
+                            <span className="button">
                                 Logout
-                            </button>
+                            </span>
                         </Link>
                 </div>
             </nav>
