@@ -27,10 +27,18 @@ body {
   }
 
   .button {
-    @apply bg-light-gray p-2 rounded-md;
+    @apply bg-light-gray p-2 rounded-md hover:cursor-pointer;
   }
 
   .authSection {
-    @apply bg-shaddy-blue w-lg m-auto text-center;
+    @apply bg-shaddy-blue rounded-md p-5 w-lg text-center;
+  }
+
+  .authInput {
+    @apply bg-white rounded-md p-1 mb-2;
+  }
+
+  .noAccountBtn {
+    @apply text-sm hover:underline;
   }
 }
