@@ -49,7 +49,7 @@ jobs:
             npm run build
 
             echo "🚀 Restarting PM2 process..."
-            pm2 start npm --name "carpart" -- start
+            PORT=3001 pm2 start npm --name "carpart" -- start
             pm2 save
 
             echo "✅ Deployment completed successfully!"

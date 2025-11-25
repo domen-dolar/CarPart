@@ -2,11 +2,11 @@ import Link from "next/link";
 
 const Login = () => {
     return (
-        <div className="min-h-[90vh] flex items-center justify-center relative">
-            <section className="w-lg text-center relative">
-                <div className="text-3xl absolute left-4/9 -top-40">
-                    Login
-                </div>
+        <div className="min-h-[90vh] flex items-center justify-center flex-col">
+            <div className="text-3xl mb-10">
+                Login
+            </div>
+            <section className="w-lg text-center">
                 <form className="authSection" action="">
                     <label htmlFor="username">Username</label><br />
                     <input id="username" type="text" className="authInput"/><br />
