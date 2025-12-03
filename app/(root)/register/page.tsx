@@ -1,6 +1,14 @@
+"use client"
+
 import Link from "next/link";
+import { useState } from "react";
 
 const Register = () => {
+    const [password, setPassword] = useState("");
+    const [repeatPassword, setRepeatPassword] = useState("");
+
+    const passwordsMatch = repeatPassword.length === 0 || password === repeatPassword;
+
     return (
         <div className="min-h-[90vh] flex items-center justify-center flex-col">
             <div className="text-3xl mb-10">
@@ -15,12 +23,28 @@ const Register = () => {
                     <input id="email" type="email" className="authInput"/><br />
 
                     <label htmlFor="password">Password</label><br />
-                    <input id="password" type="password" className="authInput"/><br />
+                    <input
+                        id="password"
+                        type="password"
+                        className="authInput"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    /><br />
 
-                    <label htmlFor="password">Repeat password</label><br />
-                    <input id="password" type="password" className="authInput"/><br />
+                    <label htmlFor="repeatPassword">Repeat password</label><br />
+                    <input
+                        id="repeatPassword"
+                        type="password"
+                        className="authInput"
+                        value={repeatPassword}
+                        onChange={(e) => setRepeatPassword(e.target.value)}
+                    /><br />
+                    
+                    {!passwordsMatch && (
+                        <p className="text-red-500 text-sm mt-1">Passwords do not match.</p>
+                    )}
 
-                    <button className="button" type="submit">
+                    <button className="button mt-2" type="submit">
                         Register
                     </button><br />
 
