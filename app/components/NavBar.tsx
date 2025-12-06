@@ -1,7 +1,10 @@
+import { auth, signOut } from "@/auth";
 import Image from "next/image";
 import Link from "next/link";
 
-const NavBar = () => {
+const NavBar = async () => {
+    const session = await auth();
+
     return (
         <header className="header">
             <nav className="flex justify-between">
@@ -11,17 +14,26 @@ const NavBar = () => {
                 </Link>
 
                 <div className="flex items-center gap-5">
+                        {session ? <>
+                            <Link className="button" href="/">
+                                {session.user?.name}
+                            </Link><form
+                                action={async () => {
+                                    "use server";
+                                    await signOut();
+                                } }
+                            >
+                                    <button className="button" type="submit">
+                                        Logout
+                                    </button>
+                                </form>
+                        </> :
                         <Link href="/login">
                             <span className="button">
                                 Login
                             </span>
-                        </Link>
-
-                        <Link href="">
-                            <span className="button">
-                                Logout
-                            </span>
-                        </Link>
+                        </Link>}
+                        
                 </div>
             </nav>
         </header>

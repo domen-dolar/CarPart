@@ -27,7 +27,7 @@ body {
   }
 
   .button {
-    @apply bg-light-gray p-2 rounded-md hover:cursor-pointer;
+    @apply bg-light-gray p-2 rounded-md hover:opacity-75 hover:cursor-pointer;
   }
 
   .authSection {

@@ -1,3 +1,4 @@
+import { signIn } from "@/auth";
 import Link from "next/link";
 
 const Login = () => {
@@ -7,12 +8,19 @@ const Login = () => {
                 Login
             </div>
             <section className="w-lg text-center">
-                <form className="authSection" action="">
-                    <label htmlFor="username">Username</label><br />
-                    <input id="username" type="text" className="authInput"/><br />
+                <form className="authSection" action={async (formData) => {
+                    "use server"
+                    await signIn("credentials", {
+                        email: formData.get("identifier"),
+                        password: formData.get("password"),
+                        redirectTo: "/carpart"
+                    });
+                }}>
+                    <label htmlFor="identifier">Username or email</label><br />
+                    <input id="identifier" name="identifier" type="text" className="authInput"/><br />
 
                     <label htmlFor="password">Password</label><br />
-                    <input id="password" type="password" className="authInput"/><br />
+                    <input id="password" name="password" type="password" className="authInput"/><br />
 
                     <button className="button" type="submit">
                         Login

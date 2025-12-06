@@ -17,7 +17,7 @@ export default defineType({
     defineField({
       name: "passwordHash",
       type: "string",
-    //   hidden: true,
+      hidden: true,
     }),
   ],
   preview: {

@@ -1,13 +1,30 @@
 "use client"
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { registerUser } from "./actions";
 
-const Register = () => {
-    const [password, setPassword] = useState("");
-    const [repeatPassword, setRepeatPassword] = useState("");
+const RegisterPage = () => {
+    const router = useRouter();
+    const [error, setError] = useState<string | null>(null);
 
-    const passwordsMatch = repeatPassword.length === 0 || password === repeatPassword;
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        setError(null);
+
+        const formData = new FormData(e.currentTarget);
+
+        try {
+        const result = await registerUser(formData);
+
+        if (result?.success) {
+            router.push("/");
+        }
+        } catch (err: any) {
+        setError(err.message);
+        }
+    }
 
     return (
         <div className="min-h-[90vh] flex items-center justify-center flex-col">
@@ -15,34 +32,20 @@ const Register = () => {
                 Register
             </div>
             <section className="w-lg text-center">
-                <form className="authSection" action="">
+                <form className="authSection" onSubmit={handleSubmit}>
                     <label htmlFor="username">Username</label><br />
-                    <input id="username" type="text" className="authInput"/><br />
+                    <input id="username" name="username" type="text" className="authInput"/><br />
 
                     <label htmlFor="email">E-mail</label><br />
-                    <input id="email" type="email" className="authInput"/><br />
+                    <input id="email" name="email" type="email" className="authInput" /><br />
 
                     <label htmlFor="password">Password</label><br />
-                    <input
-                        id="password"
-                        type="password"
-                        className="authInput"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    /><br />
+                    <input id="password" name="password" type="password" className="authInput" /><br />
 
                     <label htmlFor="repeatPassword">Repeat password</label><br />
-                    <input
-                        id="repeatPassword"
-                        type="password"
-                        className="authInput"
-                        value={repeatPassword}
-                        onChange={(e) => setRepeatPassword(e.target.value)}
-                    /><br />
+                    <input id="repeatPassword" name="repeatPassword" type="password" className="authInput" /><br />
                     
-                    {!passwordsMatch && (
-                        <p className="text-red-500 text-sm mt-1">Passwords do not match.</p>
-                    )}
+                    {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
 
                     <button className="button mt-2" type="submit">
                         Register
@@ -56,4 +59,4 @@ const Register = () => {
         </div>
     )
 }
-export default Register;
+export default RegisterPage;
