@@ -1,9 +1,15 @@
 import { auth, signOut } from "@/auth";
 import Image from "next/image";
 import Link from "next/link";
+import NavBarClient from "./NavBarClient";
 
 const NavBar = async () => {
     const session = await auth();
+
+    async function logout() {
+        "use server"
+        await signOut({ redirectTo: "/carpart" });
+    }
 
     return (
         <header className="header">
@@ -13,28 +19,7 @@ const NavBar = async () => {
                     <span className="ml-3">CarPart</span>
                 </Link>
 
-                <div className="flex items-center gap-5">
-                        {session ? <>
-                            <Link className="button" href="/">
-                                {session.user?.name}
-                            </Link><form
-                                action={async () => {
-                                    "use server";
-                                    await signOut();
-                                } }
-                            >
-                                    <button className="button" type="submit">
-                                        Logout
-                                    </button>
-                                </form>
-                        </> :
-                        <Link href="/login">
-                            <span className="button">
-                                Login
-                            </span>
-                        </Link>}
-                        
-                </div>
+                <NavBarClient session={session} logout={logout} />
             </nav>
         </header>
     )
