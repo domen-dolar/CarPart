@@ -15,11 +15,12 @@ const Login = () => {
         const result = await loginAction(formData);
 
         if (!result.success) {
-        setError(result.error);
-        return;
+            setError(result.error);
+            return;
         }
 
         router.push("/");
+        router.refresh();
     }
 
     return (

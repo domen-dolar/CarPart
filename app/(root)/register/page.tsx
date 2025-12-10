@@ -16,13 +16,14 @@ const RegisterPage = () => {
         const formData = new FormData(e.currentTarget);
 
         try {
-        const result = await registerUser(formData);
+            const result = await registerUser(formData);
 
         if (result?.success) {
             router.push("/");
+            router.refresh();
         }
         } catch (err: any) {
-        setError(err.message);
+            setError(err.message);
         }
     }
 

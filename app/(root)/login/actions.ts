@@ -13,7 +13,7 @@ export async function loginAction(formData: FormData) {
       redirect: false,
     });
 
-    return { success: true };
+    return { success: true, error: null };
   } catch (err: any) {
     return {
       success: false,
