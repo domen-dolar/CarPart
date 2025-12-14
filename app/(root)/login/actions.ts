@@ -2,22 +2,39 @@
 
 import { signIn } from "@/auth";
 
-export async function loginAction(formData: FormData) {
-  const identifier = formData.get("identifier");
-  const password = formData.get("password");
+type LoginActionResult = { success: boolean; error: string | null };
 
-  try {
-    await signIn("credentials", {
-      email: identifier,
-      password,
-      redirect: false,
-    });
+async function signInWithGoogle(): Promise<never> {
+    try {
+        await signIn("google");
+        throw new Error("Google sign-in did not initiate redirect.");
+    } catch (error) {
+        throw error;
+    }
+}
 
-    return { success: true, error: null };
-  } catch (err: any) {
-    return {
-      success: false,
-      error: "Invalid username or password.",
-    };
+export async function loginAction(type: string, formData: FormData): Promise<LoginActionResult> {
+  if(type == "credentials"){
+    const identifier = formData.get("identifier");
+    const password = formData.get("password");
+
+    try {
+      await signIn("credentials", {
+        email: identifier,
+        password,
+        redirect: false,
+      });
+
+      return { success: true, error: null };
+    } catch (err: any) {
+      return {
+        success: false,
+        error: "Invalid username or password.",
+      };
+    }
+  } else {
+    await signInWithGoogle();
+
+    return { success: false, error: "Redirect failed." };
   }
 }

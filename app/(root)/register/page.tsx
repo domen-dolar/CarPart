@@ -29,28 +29,28 @@ const RegisterPage = () => {
             <div className="text-3xl mb-10">
                 Register
             </div>
-            <section className="w-lg text-center">
-                <form className="authSection" onSubmit={handleSubmit}>
-                    <label htmlFor="username">Username</label><br />
-                    <input id="username" name="username" type="text" className="authInput"/><br />
+            <section className="authSection">
+                <form className="authForm" onSubmit={handleSubmit}>
+                    <label htmlFor="username">Username</label>
+                    <input id="username" name="username" type="text" className="authInput"/>
 
-                    <label htmlFor="email">E-mail</label><br />
-                    <input id="email" name="email" type="email" className="authInput" /><br />
+                    <label htmlFor="email">E-mail</label>
+                    <input id="email" name="email" type="email" className="authInput" />
 
-                    <label htmlFor="password">Password</label><br />
-                    <input id="password" name="password" type="password" className="authInput" /><br />
+                    <label htmlFor="password">Password</label>
+                    <input id="password" name="password" type="password" className="authInput" />
 
-                    <label htmlFor="repeatPassword">Repeat password</label><br />
-                    <input id="repeatPassword" name="repeatPassword" type="password" className="authInput" /><br />
+                    <label htmlFor="repeatPassword">Repeat password</label>
+                    <input id="repeatPassword" name="repeatPassword" type="password" className="authInput" />
                     
-                    {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+                    {error && <p className="text-red-500 text-sm">{error}</p>}
 
-                    <button className="button mt-2" type="submit">
+                    <button className="button" type="submit">
                         Register
-                    </button><br />
+                    </button>
 
                     <Link className="noAccountBtn" href="/login">
-                        Already have an account?
+                        Already have an account? Login.
                     </Link>
                 </form>
             </section>

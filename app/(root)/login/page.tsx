@@ -9,18 +9,25 @@ const Login = () => {
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
 
-    async function handleLogin(formData: FormData) {
+    async function handleLogin(type: string, formData: FormData) {
         setError(null);
 
-        const result = await loginAction(formData);
+        try {
+            const result = await loginAction(type, formData);
+            
+            if (type === "credentials") {
+                if (!result.success) {
+                    setError(result.error);
+                    return;
+                }
+                
+                router.push("/");
+                router.refresh();
+            }
 
-        if (!result.success) {
-            setError(result.error);
-            return;
+        } catch (e) {
+            console.log("Redirect or other error caught:", e);
         }
-
-        router.push("/");
-        router.refresh();
     }
 
     return (
@@ -28,24 +35,36 @@ const Login = () => {
             <div className="text-3xl mb-10">
                 Login
             </div>
-            <section className="w-lg text-center">
-                <form className="authSection" action={handleLogin}>
-                    <label htmlFor="identifier">Username or email</label><br />
-                    <input id="identifier" name="identifier" type="text" className="authInput"/><br />
+            <section className="authSection">
+                <form className="authForm" action={(formData) => handleLogin("credentials", formData)}>
+                    <label htmlFor="identifier">Username or email</label>
+                    <input id="identifier" name="identifier" type="text" className="authInput"/>
 
-                    <label htmlFor="password">Password</label><br />
-                    <input id="password" name="password" type="password" className="authInput"/><br />
+                    <label htmlFor="password">Password</label>
+                    <input id="password" name="password" type="password" className="authInput"/>
 
-                    {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+                    {error && <p className="text-red-500 text-sm">{error}</p>}
 
                     <button className="button" type="submit">
                         Login
-                    </button><br />
-
-                    <Link className="noAccountBtn" href="/register">
-                        Don't have an account?
-                    </Link>
+                    </button>
                 </form>
+                <Link className="noAccountBtn" href="/register">
+                    Don't have an account? Register.
+                </Link>
+                {/* <div className="w-4/5 mx-auto relative">
+                    <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-gray-black"></div>
+                    </div>
+                    <div className="relative flex justify-center text-sm">
+                        <span className="px-4 bg-shaddy-blue">Or</span>
+                    </div>
+                </div>
+                <form
+                    action={(formData) => handleLogin("google", formData)}
+                >
+                    <button className="button" type="submit">Login with Google</button>
+                </form> */}
             </section>
         </div>
     )

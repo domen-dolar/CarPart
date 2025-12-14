@@ -34,8 +34,12 @@ body {
     @apply bg-shaddy-blue rounded-md p-5 w-lg text-center;
   }
 
+  .authForm {
+    @apply flex flex-col space-y-2 mx-auto mb-2 w-3/5;
+  }
+
   .authInput {
-    @apply bg-white rounded-md p-1 mb-2;
+    @apply bg-white rounded-md p-1;
   }
 
   .noAccountBtn {
