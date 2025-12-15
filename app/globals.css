@@ -24,7 +24,11 @@ body {
 
 @layer utilities{
   .header {
-    @apply shadow-sm p-3 bg-shaddy-blue;
+    @apply shadow-sm p-3 bg-shaddy-blue fixed top-0 w-full;
+  }
+
+  .mainContent {
+    @apply flex flex-col space-y-5 mb-auto mt-20 pb-5 px-[10%];
   }
 
   .footer {
@@ -33,6 +37,10 @@ body {
 
   .button {
     @apply bg-light-gray p-2 rounded-md hover:opacity-75 hover:cursor-pointer;
+  }
+
+  .authPage {
+    @apply flex items-center justify-center flex-col mt-60;
   }
 
   .authSection {
@@ -49,5 +57,13 @@ body {
 
   .noAccountBtn {
     @apply text-sm hover:underline;
+  }
+
+  .productCard {
+    @apply flex flex-col space-y-2 p-2 bg-shaddy-blue rounded-md;
+  }
+
+  .productCardDetails {
+    @apply flex flex-col justify-between items-end;
   }
 }

@@ -25,7 +25,7 @@ const RegisterPage = () => {
     }
 
     return (
-        <div className="flex items-center justify-center flex-col">
+        <div className="authPage">
             <div className="text-3xl mb-10">
                 Register
             </div>
