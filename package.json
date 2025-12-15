@@ -29,7 +29,8 @@
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "sanity": "^4.18.0",
-    "styled-components": "^6.1.19"
+    "styled-components": "^6.1.19",
+    "swiper": "^12.0.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

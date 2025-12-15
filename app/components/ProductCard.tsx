@@ -17,7 +17,7 @@ const ProductCard = ({ product }: { product: any }) => {
 
                 <p>Price: {product.price} €</p>
 
-                <Link href={`/product/${product._id}`} className="button w-fit">
+                <Link href={`/product/${product.slug.current}`} className="button w-fit">
                     details
                 </Link>
             </div>

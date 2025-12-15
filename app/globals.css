@@ -66,4 +66,9 @@ body {
   .productCardDetails {
     @apply flex flex-col justify-between items-end;
   }
+
+  .mySwiper {
+    --swiper-navigation-color: var(--color-shaddy-blue);
+    --swiper-pagination-color: var(--color-shaddy-blue);
+  }
 }

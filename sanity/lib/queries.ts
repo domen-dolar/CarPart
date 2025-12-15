@@ -14,6 +14,32 @@ export const PRODUCTS_QUERY = (orderClause: string) => defineQuery(`
     _id,
     name,
     slug,
+    price,
+
+
+    "category": category->{
+      _id,
+      name,
+      slug
+    },
+
+    "images": images[]{
+      asset->{
+        _id,
+        url
+      }
+    }
+  }
+`);
+
+export const PRODUCT_BY_SLUG_QUERY =  defineQuery(`
+  *[
+    _type == "product" &&
+    slug.current == $slug
+  ][0] {
+    _id,
+    name,
+    slug,
     sku,
     price,
     stock,
