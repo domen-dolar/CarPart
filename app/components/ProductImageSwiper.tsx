@@ -9,7 +9,6 @@ import "swiper/css/pagination";
 import "swiper/css";
 
 const ProductImageSwiper = ({ images }: { images: any[] }) => {
-    console.log(images);
     return (
         <Swiper
             modules={[Navigation, Pagination]}
