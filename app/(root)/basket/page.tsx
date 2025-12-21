@@ -8,7 +8,9 @@ import RemoveBasketItemButton from "@/app/components/RemoveBasketItemButton";
 const Basket = async () => {
     const session = await auth();
 
-    session ?? redirect("/");
+    if (!session || !session.user) {
+        redirect("/");
+    }
 
     const basket = await client.fetch(BASKET_ITEMS_QUERY, { userId: session?.user.id });
 

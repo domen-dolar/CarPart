@@ -13,7 +13,7 @@ const NavBar = async () => {
     let basket;
     let basketFill = false;
 
-    if (session) {
+    if (session && session.user) {
         basket = await client.fetch(BASKET_ITEMS_QUERY, { userId: session?.user.id });
 
         if (basket == null)
