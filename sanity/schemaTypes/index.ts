@@ -5,7 +5,8 @@ import category from './category'
 import carModel from './carmodel'
 import order from './order'
 import orderItem from './orderitem'
+import basket from './basket'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [user, product, category, carModel, order, orderItem],
+  types: [user, product, category, carModel, order, orderItem, basket],
 }

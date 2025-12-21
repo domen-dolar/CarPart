@@ -38,10 +38,6 @@ jobs:
             echo "🧹 Cleaning old build..."
             rm -rf .next
 
-            echo "🛑 Stopping existing PM2 process (if any)..."
-            pm2 stop carpart || true
-            pm2 delete carpart
-
             echo "📦 Installing dependencies..."
             npm ci
 
@@ -49,7 +45,7 @@ jobs:
             npm run build
 
             echo "🚀 Restarting PM2 process..."
-            PORT=3001 pm2 start npm --name "carpart" -- start
+            PORT=3001 pm2 reload carpart || pm2 start npm --name "carpart" -- start
             pm2 save
 
             echo "✅ Deployment completed successfully!"

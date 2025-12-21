@@ -67,3 +67,25 @@ export const PRODUCT_BY_SLUG_QUERY =  defineQuery(`
     }
   }
 `);
+
+export const BASKET_ITEMS_QUERY = defineQuery(`
+  *[_type == "basket" && user._ref == $userId][0]{
+    _id,
+    items[]{
+      quantity,
+      price,
+      product->{
+        _id,
+        name,
+        slug,
+        stock,
+        images[]{
+          asset->{
+            _id,
+            url
+          }
+        }
+      }
+    }
+  }
+`);

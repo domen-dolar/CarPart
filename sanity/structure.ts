@@ -10,5 +10,6 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem("category").title("Categories"),
       S.documentTypeListItem("carModel").title("Car Models"),
       S.documentTypeListItem("order").title("Orders"),
-      S.documentTypeListItem("orderItem").title("Order items")
+      S.documentTypeListItem("orderItem").title("Order items"),
+      S.documentTypeListItem("basket").title("Baskets"),
     ])

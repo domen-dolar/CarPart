@@ -1,16 +1,24 @@
 "use client"
 
-import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faAngleUp, faCartPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Form from "next/form";
 import { useState } from "react";
+import { addToBasket } from "../actions/basket";
+import { useRouter } from "next/navigation";
 
-const AddtoBasket = ({ product }: { product: any }) => {
+const AddtoBasket = ({ product, session }: { product: any, session: boolean }) => {
     const [quantity, changeQuantity] = useState(1);
+
+    const router = useRouter();
 
     return (
         <Form
-            action="#"
+            action={async (formData) => {
+                await addToBasket(formData);
+
+                router.refresh();
+            }}
             className="addProductToBasketForm"
         >
             <input type="text" name="product" value={product.slug.current} readOnly hidden />
@@ -43,7 +51,13 @@ const AddtoBasket = ({ product }: { product: any }) => {
                 </button>
             </div>
 
-            <button className="button">Add to basket</button>
+            <button
+                className="button disabled:cursor-not-allowed! disabled:opacity-75!"
+                disabled={!session}
+            >
+                Add to basket
+                <FontAwesomeIcon className="ml-1" icon={faCartPlus} />
+            </button>
         </Form>
     )
 }

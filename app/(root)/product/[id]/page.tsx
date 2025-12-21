@@ -1,5 +1,6 @@
 import AddtoBasket from "@/app/components/AddToBasket";
 import ProductImageSwiper from "@/app/components/ProductImageSwiper";
+import { auth } from "@/auth";
 import { client } from "@/sanity/lib/client";
 import { PRODUCT_BY_SLUG_QUERY } from "@/sanity/lib/queries";
 
@@ -7,6 +8,8 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
     const slug = (await params).id;
     
     const product = await client.fetch(PRODUCT_BY_SLUG_QUERY, { slug });
+
+    const session = await auth() ? true : false;
 
     return (
         <div className="productPage">
@@ -20,7 +23,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
                     <p>SKU / part number: {product.sku}</p>
                     <div className="addProductToBasketParent">
                         <p>Price: <span className="text-lg">{product.price}</span> €</p>
-                        <AddtoBasket product={product} />
+                        <AddtoBasket product={product} session={session} />
                         <p>Items left in stock: {product.stock}</p>
                     </div>
                 </div>
@@ -46,7 +49,6 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
                         </div>
                     </div>
                 </div>
-                
             </div>
         </div>
     )
