@@ -4,6 +4,8 @@ import { BASKET_ITEMS_QUERY } from "@/sanity/lib/queries";
 import { redirect } from "next/navigation";
 import BasketItemQuantity from "@/app/components/BasketItemQuantity";
 import RemoveBasketItemButton from "@/app/components/RemoveBasketItemButton";
+import Form from "next/form";
+import { makeOrder } from "@/app/actions/basket";
 
 const Basket = async () => {
     const session = await auth();
@@ -52,15 +54,23 @@ const Basket = async () => {
                         ))}
                     </ul>
                     <hr />
-                    <div className="text-lg">
-                        <div className="space-x-2">
-                            <span>Total price:</span>
-                            <span>
-                                {basket.items.reduce(
-                                (total: number, item: any) => total + item.price * item.quantity, 0)
-                                .toFixed(2)
-                            } €
-                            </span>
+                    <div className="text-lg bg-shaddy-blue p-2 rounded-md">
+                        <div className="flex justify-between">
+                            <div className="flex items-center space-x-2">
+                                <span>Total price:</span>
+                                <span>
+                                    {basket.items.reduce(
+                                    (total: number, item: any) => total + item.price * item.quantity, 0)
+                                    .toFixed(2)
+                                } €
+                                </span>
+                            </div>
+
+                            <Form action={makeOrder}>
+                                <button className="button">
+                                    Proceed with payment
+                                </button>
+                            </Form>
                         </div>
                     </div>
                 </>

@@ -89,3 +89,34 @@ export const BASKET_ITEMS_QUERY = defineQuery(`
     }
   }
 `);
+
+export const PENDING_ORDER_QUERY = defineQuery(`
+  *[
+    _type == "order" &&
+    status == "pending" &&
+    user._ref == $userId
+  ]
+  | order(createdAt desc)[0]{
+    _id,
+    createdAt,
+    total,
+    status,
+
+    items[]{
+      _key,
+      quantity,
+      price,
+      product->{
+        _id,
+        name,
+        slug,
+        images[]{
+          asset->{
+            _id,
+            url
+          }
+        }
+      }
+    }
+  }
+`);
