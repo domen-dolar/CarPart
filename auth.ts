@@ -2,7 +2,35 @@ import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import bcrypt from "bcryptjs"
 import { client } from "./sanity/lib/client"
-// import Google from "next-auth/providers/google"
+import Google from "next-auth/providers/google"
+
+async function ensureGoogleUser({
+    name,
+    email,
+}: {
+    name?: string | null;
+    email?: string | null;
+}): Promise<string | null> {
+    if (!email) return null;
+
+    const existingUser = await client.fetch(
+        `*[_type == "user" && email == $email][0]{ _id }`,
+        { email }
+    );
+
+    if (existingUser?._id) {
+        return existingUser._id;
+    }
+
+    const newUser = await client.create({
+        _type: "user",
+        name: name ?? "Google User",
+        email,
+        provider: "google",
+    });
+
+    return newUser._id;
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     providers: [
@@ -44,15 +72,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 };
             }
         }),
-        // Google({
-        //     clientId: process.env.GOOGLE_CLIENT_ID!,
-        //     clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-        //     authorization: {
-        //         params: {
-        //             prompt: "select_account",
-        //         },
-        //     },
-        // }),
+        Google
     ],
 
     session: {
@@ -64,9 +84,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     callbacks: {
+        async signIn({ user, account }) {
+            if (account?.provider === "google") {
+                const sanityUserId = await ensureGoogleUser({
+                    name: user.name,
+                    email: user.email,
+                });
+
+                (user as any).sanityId = sanityUserId;
+            }
+
+            return true;
+        },
         jwt({ token, user }) {
             if (user) {
-                token.id = user.id
+                token.id = (user as any).sanityId ?? user.id
             }
             return token
         },
@@ -75,6 +107,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return session
         },
     },
-
-    // basePath: "/api/auth",
 })

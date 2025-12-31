@@ -6,7 +6,10 @@ type LoginActionResult = { success: boolean; error: string | null };
 
 async function signInWithGoogle(): Promise<never> {
     try {
-        await signIn("google");
+        await signIn("google", {
+          redirect: true,
+          redirectTo: "/",
+        });
         throw new Error("Google sign-in did not initiate redirect.");
     } catch (error) {
         throw error;

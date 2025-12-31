@@ -52,7 +52,7 @@ const Login = () => {
                 <Link className="noAccountBtn" href="/register">
                     Don't have an account? Register.
                 </Link>
-                {/* <div className="w-4/5 mx-auto relative">
+                <div className="w-4/5 mx-auto relative">
                     <div className="absolute inset-0 flex items-center">
                         <div className="w-full border-t border-gray-black"></div>
                     </div>
@@ -64,7 +64,7 @@ const Login = () => {
                     action={(formData) => handleLogin("google", formData)}
                 >
                     <button className="button" type="submit">Login with Google</button>
-                </form> */}
+                </form>
             </section>
         </div>
     )
