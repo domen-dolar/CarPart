@@ -1,5 +1,8 @@
+// TODO: hide login button when on login screen
+// TODO: hide my orders button when on myorders screen
+
 import { auth, signOut } from "@/auth";
-import { faSignInAlt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faList, faSignInAlt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
@@ -34,6 +37,12 @@ const NavBar = async () => {
                 <div className="flex items-center gap-5">
                     {session ? <>
                             <p>Welcome, {session.user?.name}!</p>
+
+                            <Link className="button" href="/orders">
+                                My orders
+                                <FontAwesomeIcon className="ml-1" icon={faList} />
+                            </Link>
+
                             <BasketButton basketFill={basketFill} />
 
                             <form

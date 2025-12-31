@@ -70,6 +70,8 @@ const reviewOrder = async () => {
                 </div>
             </div>
 
+            <hr />
+
             <div className="flex justify-between items-center">
                 <div className="text-xl">
                     Total price: {order.total.toFixed(2)} €

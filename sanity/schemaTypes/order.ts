@@ -44,6 +44,10 @@ export default defineType({
       type: "datetime",
       initialValue: () => new Date().toISOString(),
     }),
+    defineField({
+      name: "paidAt",
+      type: "datetime"
+    })
   ],
   preview: {
     select: {

@@ -1,9 +1,13 @@
+// TODO: redirect user to home if they are already logged in
+// TODO: add spinning loading icon when logging in
+
 "use client"
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { loginAction } from "./actions";
+import Image from "next/image";
 
 const Login = () => {
     const router = useRouter();
@@ -63,7 +67,10 @@ const Login = () => {
                 <form
                     action={(formData) => handleLogin("google", formData)}
                 >
-                    <button className="button" type="submit">Login with Google</button>
+                    <button className="button flex items-center mx-auto" type="submit">
+                        <Image src="/google.png" alt="google" width={24} height={24} />
+                        <span className="ml-2">Login with Google</span>
+                    </button>
                 </form>
             </section>
         </div>
