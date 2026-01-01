@@ -1,20 +1,27 @@
 import { payOrder } from "@/app/actions/basket";
 import { auth } from "@/auth";
 import { client } from "@/sanity/lib/client";
-import { PENDING_ORDER_QUERY } from "@/sanity/lib/queries";
+import { ORDER_BY_ID_QUERY, PENDING_ORDER_QUERY } from "@/sanity/lib/queries";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Form from "next/form";
 import { redirect } from "next/navigation";
 
-const reviewOrder = async () => {
+const reviewOrder = async ({ searchParams }: {
+    searchParams: Promise<{ orderId?: string }> }) => {
     const session = await auth();
     
     if (!session || !session.user) {
         redirect("/");
     }
 
-    const order = await client.fetch(PENDING_ORDER_QUERY, { userId: session?.user.id });
+    const { orderId } = await searchParams;
+    let order;
+
+    if (!orderId)
+        order = await client.fetch(PENDING_ORDER_QUERY, { userId: session?.user.id });
+    else
+        order = await client.fetch(ORDER_BY_ID_QUERY, { userId: session?.user.id, orderId });
 
     if (!order)
         redirect("/basket");

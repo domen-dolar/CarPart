@@ -1,10 +1,9 @@
-// TODO: add an option to pay pending orders
-
 import { auth } from "@/auth";
 import { client } from "@/sanity/lib/client";
 import { ORDERS_QUERY } from "@/sanity/lib/queries";
 import { faCheck, faCircle, faHourglass2 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Form from "next/form";
 import { redirect } from "next/navigation";
 
 const Orders = async () => {
@@ -51,25 +50,37 @@ const Orders = async () => {
                                         </ul>
                                         <p className="text-lg">Order created at: {new Date(order.createdAt).toLocaleString()}</p>
                                     </div>
-                                    <div className="text-lg flex  flex-col justify-center">
-                                        <div>
-                                            <span>Payment status: </span>
-                                            {order.status == "pending" ? 
-                                                <>
-                                                    <span className="bg-yellow-100 text-yellow-500 p-1 rounded-md">
-                                                        {order.status}
-                                                        <FontAwesomeIcon className="ml-1" icon={faHourglass2} />
-                                                    </span>
-                                                    <div className="mt-2">Price: {order.total}€</div>
-                                                </> :
-                                                <>
-                                                    <span className="bg-green-100 text-green-500 p-1 rounded-md">
-                                                        {order.status}
-                                                        <FontAwesomeIcon className="ml-1" icon={faCheck} />
-                                                    </span>
-                                                    <div>Price: {order.total.toFixed(2)}€</div>
-                                                    <div>Paid at: {new Date(order.paidAt).toLocaleString()}</div>
-                                                </>
+                                    <div className="grid grid-cols-2">
+                                        <div className="text-lg flex items-center justify-center">
+                                            <div>
+                                                <span>Payment status: </span>
+                                                {order.status == "pending" ? 
+                                                    <>
+                                                        <span className="bg-yellow-100 text-yellow-500 p-1 rounded-md">
+                                                            {order.status}
+                                                            <FontAwesomeIcon className="ml-1" icon={faHourglass2} />
+                                                        </span>
+                                                        <div className="mt-2">Price: {order.total}€</div>
+                                                    </> :
+                                                    <>
+                                                        <span className="bg-green-100 text-green-500 p-1 rounded-md">
+                                                            {order.status}
+                                                            <FontAwesomeIcon className="ml-1" icon={faCheck} />
+                                                        </span>
+                                                        <div>Price: {order.total.toFixed(2)}€</div>
+                                                        <div>Paid at: {new Date(order.paidAt).toLocaleString()}</div>
+                                                    </>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-center">
+                                            {order.status == "pending" &&
+                                                <Form action="/reviewOrder">
+                                                    <input type="text" name="orderId" value={order._id} readOnly hidden />
+                                                    <button className="button">
+                                                        Review & Pay
+                                                    </button>
+                                                </Form>
                                             }
                                         </div>
                                     </div>

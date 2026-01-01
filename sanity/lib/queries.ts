@@ -121,6 +121,37 @@ export const PENDING_ORDER_QUERY = defineQuery(`
   }
 `);
 
+export const ORDER_BY_ID_QUERY = defineQuery(`
+  *[
+    _type == "order" &&
+    status == "pending" &&
+    user._ref == $userId &&
+    _id == $orderId
+  ]
+  | order(createdAt desc)[0]{
+    createdAt,
+    total,
+    status,
+
+    items[]{
+      _key,
+      quantity,
+      price,
+      product->{
+        _id,
+        name,
+        slug,
+        images[]{
+          asset->{
+            _id,
+            url
+          }
+        }
+      }
+    }
+  }
+`);
+
 export const ORDERS_QUERY = defineQuery(`
   *[
     _type == "order" &&
