@@ -47,7 +47,7 @@ export default function RemoveBasketItemButton({ slug }: { slug: string}) {
 
     return (
         <button
-            className="button mx-auto hover:cursor-pointer disabled:cursor-not-allowed! disabled:opacity-75!"
+            className="button removeBasketItemButton"
             onClick={handleRemove}
             onMouseEnter={() => setTrashCan(faTrashCanArrowUp)}
             onMouseLeave={() => setTrashCan(faTrashCan)}

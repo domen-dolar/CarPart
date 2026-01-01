@@ -26,7 +26,7 @@ const RegisterPage = () => {
 
     return (
         <div className="authPage">
-            <div className="text-3xl mb-10">
+            <div className="text-3xl text-light-gray mb-10">
                 Register
             </div>
             <section className="authSection">

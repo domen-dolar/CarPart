@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #97afb9;
+  --background: #344a53;
   --foreground: #344a53;
 }
 
@@ -12,7 +12,6 @@
   --color-gray-black: #344a53;
   --color-light-gray: #97afb9;
   --color-shaddy-blue: #50c1e6;
-  /* --font-mono: var(--font-geist-mono); */
 }
 
 body {
@@ -32,7 +31,7 @@ body {
 
 @layer utilities{
   .header {
-    @apply shadow-sm p-3 bg-shaddy-blue fixed top-0 w-full z-10;
+    @apply shadow-xl p-3 bg-shaddy-blue fixed top-0 w-full z-10;
   }
 
   .mainContent {
@@ -43,8 +42,24 @@ body {
     @apply bg-shaddy-blue text-center text-sm py-4;
   }
 
+  .heading {
+    @apply text-center text-xl mt-5 text-light-gray;
+  }
+
   .button {
     @apply bg-light-gray p-2 rounded-md hover:opacity-75 hover:cursor-pointer;
+  }
+
+  .searchOrFilterForm {
+    @apply w-full flex flex-row justify-between text-lg;
+  }
+
+  .searchOrFilterSearch {
+    @apply bg-white rounded-sm px-2 flex flex-row w-1/3;
+  }
+
+  .searchOrFilterSelect {
+    @apply outline-none p-2 ml-2 rounded-sm bg-white;
   }
 
   .authPage {
@@ -52,7 +67,7 @@ body {
   }
 
   .authSection {
-    @apply bg-shaddy-blue rounded-md p-5 w-lg text-center;
+    @apply bg-shaddy-blue shadow-xl rounded-md p-5 w-lg text-center;
   }
 
   .authForm {
@@ -72,7 +87,7 @@ body {
   }
 
   .productCard {
-    @apply flex flex-col space-y-2 p-2 bg-shaddy-blue rounded-md;
+    @apply flex flex-col space-y-2 p-2 bg-shaddy-blue shadow-xl rounded-md;
   }
 
   .productCardDetails {
@@ -88,7 +103,7 @@ body {
   }
 
   .changeProductQuantityButton {
-    @apply w-1/3 disabled:cursor-not-allowed! bg-transparent!;
+    @apply disabled:cursor-not-allowed! bg-transparent!;
   }
 
   .basketPage {
@@ -101,6 +116,26 @@ body {
 
   .removeBasketItemParent {
     @apply w-1/10 flex items-center justify-center;
+  }
+
+  .removeBasketItemButton {
+    @apply mx-auto hover:cursor-pointer disabled:cursor-not-allowed! disabled:opacity-75!;
+  }
+
+  .basketItemQuantityForm {
+    @apply flex bg-white rounded-md w-fit mx-auto;
+  }
+
+  .orderPaymentDetails {
+    @apply text-lg flex items-center justify-center;
+  }
+
+  .pendingOrderIndicator {
+    @apply bg-yellow-100 text-yellow-500 p-1 rounded-md;
+  }
+
+  .paidOrderIndicator {
+    @apply bg-green-100 text-green-500 p-1 rounded-md;
   }
 
   .mySwiper {

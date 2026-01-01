@@ -59,7 +59,7 @@ const Login = () => {
 
     return (
         <div className="authPage">
-            <div className="text-3xl mb-10">
+            <div className="text-3xl mb-10 text-light-gray">
                 Login
             </div>
             <section className="authSection">

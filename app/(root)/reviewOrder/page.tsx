@@ -28,7 +28,7 @@ const reviewOrder = async ({ searchParams }: {
 
     return (
         <div className="basketPage">
-            <p className="text-xl">Review and pay your order:</p>
+            <p className="text-xl text-light-gray">Review and pay your order:</p>
             <div className="bg-shaddy-blue p-2 rounded-md">
                 <div className="grid grid-cols-3">
                     <div>
@@ -75,10 +75,10 @@ const reviewOrder = async ({ searchParams }: {
                 </div>
             </div>
 
-            <hr />
+            <hr className="text-light-gray" />
 
             <div className="flex justify-between items-center">
-                <div className="text-xl">
+                <div className="text-xl text-light-gray">
                     Total price: {order.total.toFixed(2)} €
                 </div>
 

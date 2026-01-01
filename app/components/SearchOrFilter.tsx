@@ -9,9 +9,9 @@ const SearchOrFilter = ({ query, sort }: { query?: string; sort?: string }) => {
         <Form
         action="/"
         scroll={false}
-        className="w-full flex flex-row justify-between text-lg"
+        className="searchOrFilterForm"
       >
-        <div className="bg-white rounded-sm px-2 flex flex-row w-1/3">
+        <div className="searchOrFilterSearch">
           <input
             name="query"
             defaultValue={query}
@@ -25,12 +25,13 @@ const SearchOrFilter = ({ query, sort }: { query?: string; sort?: string }) => {
         </div>
         
         <div>
-          Sort by:
+          <span className="text-light-gray">Sort by:</span>
+          
           <select
             name="sort"
             defaultValue={sort ?? "name"}
             onChange={(e) => e.currentTarget.form?.requestSubmit()}
-            className="outline-none border px-2 p-2 ml-2 rounded-sm bg-white"
+            className="searchOrFilterSelect"
           >
             <option value="name">Name (A–Z)</option>
             <option value="name_desc">Name (Z–A)</option>

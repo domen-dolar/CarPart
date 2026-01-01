@@ -67,7 +67,7 @@ const AddtoBasket = ({ product, session }: { product: any, session: boolean }) =
                     type="text"
                     value={quantity}
                     readOnly
-                    className="w-10 outline-none text-center"
+                    className="w-20 outline-none text-center"
                 />
                 <button
                     type="button"

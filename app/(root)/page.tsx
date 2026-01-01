@@ -22,7 +22,7 @@ export default async function Home({ searchParams }: {
 
   return (
     <div className="mainContent">
-      <div className="text-center text-xl mt-5">
+      <div className="heading">
         Welcome to CarPart, your top online shop for car parts!
       </div>
 

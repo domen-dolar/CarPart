@@ -25,7 +25,7 @@ const Orders = async () => {
 
     return (
         <div className="basketPage">
-            <p className="text-xl">Your orders:</p>
+            <p className="text-xl text-light-gray">Your orders:</p>
 
             {ordersExist ? (
                 <>
@@ -51,19 +51,19 @@ const Orders = async () => {
                                         <p className="text-lg">Order created at: {new Date(order.createdAt).toLocaleString()}</p>
                                     </div>
                                     <div className="grid grid-cols-2">
-                                        <div className="text-lg flex items-center justify-center">
+                                        <div className="orderPaymentDetails">
                                             <div>
                                                 <span>Payment status: </span>
                                                 {order.status == "pending" ? 
                                                     <>
-                                                        <span className="bg-yellow-100 text-yellow-500 p-1 rounded-md">
+                                                        <span className="pendingOrderIndicator">
                                                             {order.status}
                                                             <FontAwesomeIcon className="ml-1" icon={faHourglass2} />
                                                         </span>
                                                         <div className="mt-2">Price: {order.total}€</div>
                                                     </> :
                                                     <>
-                                                        <span className="bg-green-100 text-green-500 p-1 rounded-md">
+                                                        <span className="">
                                                             {order.status}
                                                             <FontAwesomeIcon className="ml-1" icon={faCheck} />
                                                         </span>

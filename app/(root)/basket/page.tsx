@@ -28,7 +28,7 @@ const Basket = async () => {
 
     return (
         <div className="basketPage">
-            <p className="text-xl">Your basket items:</p>
+            <p className="text-xl text-light-gray">Your basket items:</p>
 
             {basketItems ? (
                 <>
@@ -77,7 +77,7 @@ const Basket = async () => {
                     </BasketClient>
                 </>
             ) :
-                <p>Your basket is empty.</p>
+                <p className="text-light-gray">Your basket is empty.</p>
             }
         </div>
     )

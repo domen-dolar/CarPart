@@ -34,7 +34,7 @@ const BasketItemQuantity = ({ prevQuantity, stock, slug }: { prevQuantity: numbe
         <Form
             ref={formRef}
             action={updateBasketItemQuantity}
-            className="flex bg-white rounded-md w-fit mx-auto"
+            className="basketItemQuantityForm"
         >
             <input type="text" name="product" value={slug} readOnly hidden />
 
