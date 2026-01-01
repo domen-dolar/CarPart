@@ -1,22 +1,50 @@
 "use client"
 
-import { faAngleDown, faAngleUp, faCartPlus } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faAngleUp, faCartPlus, faHourglass1, faHourglass2, faHourglass3 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Form from "next/form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addToBasket } from "../actions/basket";
 import { useRouter } from "next/navigation";
 
 const AddtoBasket = ({ product, session }: { product: any, session: boolean }) => {
     const [quantity, changeQuantity] = useState(1);
+    const [fillingBasket, setFillingBasket] = useState(false);
+    const [iconIndex, setIconIndex] = useState(0);
 
     const router = useRouter();
 
+    const hourglassIcons = [
+        faHourglass1,
+        faHourglass2,
+        faHourglass3,
+    ];
+
+    useEffect(() => {
+        if (!fillingBasket) {
+            setIconIndex(0);
+            return;
+        }
+
+        const interval = setInterval(() => {
+            setIconIndex((prev) => (prev + 1) % hourglassIcons.length);
+        }, 300);
+
+        return () => clearInterval(interval);
+    }, [fillingBasket]);
+
     return (
-        <Form
-            action={async (formData) => {
+        <form
+            onSubmit={async (e) => {
+                e.preventDefault();
+
+                if (!session || fillingBasket) return;
+
+                setFillingBasket(true);
+
+                const formData = new FormData(e.currentTarget);
                 await addToBasket(formData);
 
+                setFillingBasket(false);
                 router.refresh();
             }}
             className="addProductToBasketForm"
@@ -53,12 +81,12 @@ const AddtoBasket = ({ product, session }: { product: any, session: boolean }) =
 
             <button
                 className="button disabled:cursor-not-allowed! disabled:opacity-75!"
-                disabled={!session}
+                disabled={!session || fillingBasket}
             >
                 Add to basket
-                <FontAwesomeIcon className="ml-1" icon={faCartPlus} />
+                <FontAwesomeIcon className="ml-1" icon={fillingBasket ? hourglassIcons[iconIndex] : faCartPlus} />
             </button>
-        </Form>
+        </form>
     )
 }
 export default AddtoBasket;

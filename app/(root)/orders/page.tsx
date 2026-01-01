@@ -1,3 +1,5 @@
+// TODO: add an option to pay pending orders
+
 import { auth } from "@/auth";
 import { client } from "@/sanity/lib/client";
 import { ORDERS_QUERY } from "@/sanity/lib/queries";

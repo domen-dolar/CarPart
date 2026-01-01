@@ -6,6 +6,7 @@ import Form from "next/form";
 import { useEffect, useRef, useState } from "react";
 import { updateBasketItemQuantity } from "../actions/basket";
 import { useRouter } from "next/navigation";
+import { useBasketTransition } from "./BasketTransitionContext";
 
 const BasketItemQuantity = ({ prevQuantity, stock, slug }: { prevQuantity: number, stock: number, slug: string }) => {
     const [quantity, changeQuantity] = useState(prevQuantity);
@@ -15,14 +16,18 @@ const BasketItemQuantity = ({ prevQuantity, stock, slug }: { prevQuantity: numbe
 
     const router = useRouter();
 
+    const { startTransition } = useBasketTransition();
+
     useEffect(() => {
         if (!hasMounted.current) {
             hasMounted.current = true;
             return;
         }
 
-        formRef.current?.requestSubmit();
-        router.refresh();
+        startTransition(() => {
+            formRef.current?.requestSubmit();
+            router.refresh();
+        });
     }, [quantity])
 
     return (

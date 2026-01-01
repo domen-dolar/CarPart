@@ -1,5 +1,3 @@
-// TODO: hide login button when on login screen
-// TODO: hide my orders button when on myorders screen
 
 import { auth, signOut } from "@/auth";
 import { faList, faSignInAlt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";

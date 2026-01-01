@@ -19,8 +19,6 @@ const reviewOrder = async () => {
     if (!order)
         redirect("/basket");
 
-    console.log(order);
-
     return (
         <div className="basketPage">
             <p className="text-xl">Review and pay your order:</p>

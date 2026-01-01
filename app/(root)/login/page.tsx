@@ -1,19 +1,40 @@
-// TODO: redirect user to home if they are already logged in
-// TODO: add spinning loading icon when logging in
-
 "use client"
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { loginAction } from "./actions";
 import Image from "next/image";
+import { faHourglass1, faHourglass2, faHourglass3 } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Login = () => {
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
+    const [authenticating, setAuthenticating] = useState(false);
+    const [iconIndex, setIconIndex] = useState(0);
+
+    const hourglassIcons = [
+        faHourglass1,
+        faHourglass2,
+        faHourglass3,
+    ];
+
+    useEffect(() => {
+        if (!authenticating) {
+            setIconIndex(0);
+            return;
+        }
+
+        const interval = setInterval(() => {
+            setIconIndex((prev) => (prev + 1) % hourglassIcons.length);
+        }, 300);
+
+        return () => clearInterval(interval);
+    }, [authenticating]);
 
     async function handleLogin(type: string, formData: FormData) {
+        setAuthenticating(true);
         setError(null);
 
         try {
@@ -22,6 +43,7 @@ const Login = () => {
             if (type === "credentials") {
                 if (!result.success) {
                     setError(result.error);
+                    setAuthenticating(false);
                     return;
                 }
                 
@@ -31,6 +53,7 @@ const Login = () => {
 
         } catch (e) {
             console.log("Redirect or other error caught:", e);
+            setAuthenticating(false);
         }
     }
 
@@ -40,7 +63,17 @@ const Login = () => {
                 Login
             </div>
             <section className="authSection">
-                <form className="authForm" action={(formData) => handleLogin("credentials", formData)}>
+                <form className="authForm"
+                    onSubmit={async (e) => {
+                        e.preventDefault();
+                        if (authenticating) return;
+
+                        setAuthenticating(true);
+
+                        const formData = new FormData(e.currentTarget);
+                        await handleLogin("credentials", formData);
+                    }}
+                >
                     <label htmlFor="identifier">Username or email</label>
                     <input id="identifier" name="identifier" type="text" className="authInput"/>
 
@@ -49,8 +82,8 @@ const Login = () => {
 
                     {error && <p className="text-red-500 text-sm">{error}</p>}
 
-                    <button className="button" type="submit">
-                        Login
+                    <button disabled={authenticating} className="button disabled:cursor-not-allowed disabled:opacity-75" type="submit">
+                        {authenticating ? <FontAwesomeIcon icon={hourglassIcons[iconIndex]} /> : "Login"}
                     </button>
                 </form>
                 <Link className="noAccountBtn" href="/register">

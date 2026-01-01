@@ -6,8 +6,8 @@ After pulling all the code from repository, setting the environmental variables 
 npm run dev
 ```
 
-Open [http://localhost:3000/carpart](http://localhost:3000/carpart) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Visiting project on a live domain
 
-To view this project live, visit [https://domendolar.eu/carpart](https://domendolar.eu/carpart)
+To view this project live, visit [https://carpart.domendolar.eu](https://carpart.domendolar.eu)
