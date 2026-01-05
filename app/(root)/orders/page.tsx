@@ -63,7 +63,7 @@ const Orders = async () => {
                                                         <div className="mt-2">Price: {order.total}€</div>
                                                     </> :
                                                     <>
-                                                        <span className="">
+                                                        <span className="paidOrderIndicator">
                                                             {order.status}
                                                             <FontAwesomeIcon className="ml-1" icon={faCheck} />
                                                         </span>
@@ -90,7 +90,7 @@ const Orders = async () => {
                     </ul>
                 </>
             ) :
-                <p>You haven't ordered anything yet.</p>
+                <p className="text-light-gray">You haven't ordered anything yet.</p>
             }
         </div>
     )
