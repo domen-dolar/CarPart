@@ -23,7 +23,7 @@ export default async function Home({ searchParams }: {
   return (
     <div className="mainContent">
       <div className="heading">
-        Welcome to CarPart, your top online shop for car parts!
+        Welcome to CarPart, your top online shop for car parts all just for you!
       </div>
 
       <SearchOrFilter query={query} sort={sort} />
