@@ -74,6 +74,7 @@ const AddtoBasket = ({ product, session }: { product: any, session: boolean }) =
                     onClick={() => changeQuantity(quantity - 1)}
                     disabled={quantity <= 1}
                     className="button changeProductQuantityButton"
+                    
                 >
                     <FontAwesomeIcon icon={faAngleDown} />
                 </button>
@@ -82,6 +83,7 @@ const AddtoBasket = ({ product, session }: { product: any, session: boolean }) =
             <button
                 className="button disabled:cursor-not-allowed! disabled:opacity-75!"
                 disabled={!session || fillingBasket}
+                data-testid="add-to-basket"
             >
                 Add to basket
                 <FontAwesomeIcon className="ml-1" icon={fillingBasket ? hourglassIcons[iconIndex] : faCartPlus} />
