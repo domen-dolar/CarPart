@@ -8,7 +8,7 @@ const BasketButton = ({ basketFill }: {basketFill: boolean}) => {
     basketFill ? basketStyle = "ml-1 text-red-500" : basketStyle = "ml-1";
 
     return (
-        <Link className="button" href="/basket">
+        <Link className="button" href="/basket" data-testid="basket-button" data-filled={basketFill}>
             Basket
             <FontAwesomeIcon className={basketStyle} icon={faBasketShopping} />
         </Link>

@@ -35,3 +35,39 @@
 //     }
 //   }
 // }
+
+/// <reference types="cypress" />
+
+import { mount } from 'cypress/react'
+
+/* =========================
+   CUSTOM COMMANDS
+========================= */
+
+Cypress.Commands.add('login', () => {
+  cy.visit('/login')
+
+  cy.get('[data-testid="login-identifier"]').type('test')
+  cy.get('[data-testid="login-password"]').type('test')
+
+  cy.get('[data-testid="submit-login"]').click()
+
+  cy.contains('Welcome').should('exist')
+})
+
+Cypress.Commands.add('mount', mount)
+
+/* =========================
+   TYPESCRIPT DECLARATIONS
+========================= */
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      login(): Chainable<void>
+      mount: typeof mount
+    }
+  }
+}
+
+export {}

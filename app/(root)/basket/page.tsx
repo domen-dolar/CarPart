@@ -68,7 +68,7 @@ const Basket = async () => {
                                 </div>
 
                                 <Form action={makeOrder}>
-                                    <button className="button">
+                                    <button className="button" data-testid="checkout">
                                         Proceed with payment
                                     </button>
                                 </Form>

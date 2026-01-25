@@ -75,14 +75,14 @@ const Login = () => {
                     }}
                 >
                     <label htmlFor="identifier">Username or email</label>
-                    <input id="identifier" name="identifier" type="text" className="authInput"/>
+                    <input data-testid="login-identifier" id="identifier" name="identifier" type="text" className="authInput"/>
 
                     <label htmlFor="password">Password</label>
-                    <input id="password" name="password" type="password" className="authInput"/>
+                    <input data-testid="login-password" id="password" name="password" type="password" className="authInput"/>
 
                     {error && <p className="text-red-500 text-sm">{error}</p>}
 
-                    <button disabled={authenticating} className="button disabled:cursor-not-allowed disabled:opacity-75" type="submit">
+                    <button data-testid="submit-login" disabled={authenticating} className="button disabled:cursor-not-allowed disabled:opacity-75" type="submit">
                         {authenticating ? <FontAwesomeIcon icon={hourglassIcons[iconIndex]} /> : "Login"}
                     </button>
                 </form>

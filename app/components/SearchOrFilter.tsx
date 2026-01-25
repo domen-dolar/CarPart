@@ -17,6 +17,7 @@ const SearchOrFilter = ({ query, sort }: { query?: string; sort?: string }) => {
             defaultValue={query}
             placeholder="Search by product name or category"
             className="outline-none w-full"
+            data-testid="search-input"
           />
         
           <button type="submit" className="button bg-white!">
@@ -32,6 +33,7 @@ const SearchOrFilter = ({ query, sort }: { query?: string; sort?: string }) => {
             defaultValue={sort ?? "name"}
             onChange={(e) => e.currentTarget.form?.requestSubmit()}
             className="searchOrFilterSelect"
+            data-testid="sort-select"
           >
             <option value="name">Name (A–Z)</option>
             <option value="name_desc">Name (Z–A)</option>

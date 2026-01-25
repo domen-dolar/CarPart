@@ -83,7 +83,7 @@ const reviewOrder = async ({ searchParams }: {
                 </div>
 
                 <Form action={payOrder}>
-                    <button className="button bg-green-400!">
+                    <button className="button bg-green-400!" data-testid="pay">
                         Pay
                         <FontAwesomeIcon className="ml-1" icon={faCheckCircle} />
                     </button>

@@ -49,14 +49,14 @@ const NavBar = async () => {
                                     await signOut();
                                 } }
                             >
-                                <button className="button" type="submit">
+                                <button className="button" type="submit" data-testid="logout-button">
                                     Logout
                                     <FontAwesomeIcon className="ml-1" icon={faSignOutAlt} />
                                 </button>
                             </form>
                         </> : 
                             <Link href="/login">
-                                <span className="button">
+                                <span className="button" data-testid="login-button">
                                     Login
                                     <FontAwesomeIcon className="ml-1" icon={faSignInAlt} />
                                 </span>
