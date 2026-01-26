@@ -1,45 +1,60 @@
+// Komponenta teče na clientu (state, eventi, router)
 "use client"
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+// Server action za prijavo
 import { loginAction } from "./actions";
 import Image from "next/image";
+// FontAwesome ikone za animacijo "loading" stanja
 import { faHourglass1, faHourglass2, faHourglass3 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Login = () => {
+    // Router za client-side navigacijo
     const router = useRouter();
+    // Napaka pri prijavi (npr. napačno geslo)
     const [error, setError] = useState<string | null>(null);
+    // Ali poteka avtentikacija
     const [authenticating, setAuthenticating] = useState(false);
+    // Index trenutne ikone (animacija)
     const [iconIndex, setIconIndex] = useState(0);
 
+    // Seznam ikon za "loading" efekt
     const hourglassIcons = [
         faHourglass1,
         faHourglass2,
         faHourglass3,
     ];
 
+    // Animacija peščene ure med prijavo
     useEffect(() => {
+        // Če nismo v auth stanju → reset ikone
         if (!authenticating) {
             setIconIndex(0);
             return;
         }
 
+        // Menjava ikon vsakih 300ms
         const interval = setInterval(() => {
             setIconIndex((prev) => (prev + 1) % hourglassIcons.length);
         }, 300);
 
+        // Cleanup intervala
         return () => clearInterval(interval);
     }, [authenticating]);
 
+    // Unified handler za credentials in Google login
     async function handleLogin(type: string, formData: FormData) {
         setAuthenticating(true);
         setError(null);
 
         try {
+            // Klic server action
             const result = await loginAction(type, formData);
             
+            // Credentials login ima response
             if (type === "credentials") {
                 if (!result.success) {
                     setError(result.error);
@@ -47,11 +62,15 @@ const Login = () => {
                     return;
                 }
                 
+                // Uspešna prijava
                 router.push("/");
                 router.refresh();
             }
+            // Google login tukaj ne pride do konca
+            // (redirect se zgodi na serverju)
 
         } catch (e) {
+            // Lovimo redirect ali nepričakovane napake
             console.log("Redirect or other error caught:", e);
             setAuthenticating(false);
         }
@@ -63,9 +82,11 @@ const Login = () => {
                 Login
             </div>
             <section className="authSection">
+                {/* LOGIN S CREDENTIALS */}
                 <form className="authForm"
                     onSubmit={async (e) => {
                         e.preventDefault();
+                         // Preprečimo večkratni submit
                         if (authenticating) return;
 
                         setAuthenticating(true);
@@ -80,15 +101,18 @@ const Login = () => {
                     <label htmlFor="password">Password</label>
                     <input data-testid="login-password" id="password" name="password" type="password" className="authInput"/>
 
+                    {/* Prikaz napake */}
                     {error && <p className="text-red-500 text-sm">{error}</p>}
 
                     <button data-testid="submit-login" disabled={authenticating} className="button disabled:cursor-not-allowed disabled:opacity-75" type="submit">
                         {authenticating ? <FontAwesomeIcon icon={hourglassIcons[iconIndex]} /> : "Login"}
                     </button>
                 </form>
+                {/* Link do registracije */}
                 <Link className="noAccountBtn" href="/register">
                     Don't have an account? Register.
                 </Link>
+                {/* Divider */}
                 <div className="w-4/5 mx-auto relative">
                     <div className="absolute inset-0 flex items-center">
                         <div className="w-full border-t border-gray-black"></div>
@@ -97,6 +121,7 @@ const Login = () => {
                         <span className="px-4 bg-shaddy-blue">Or</span>
                     </div>
                 </div>
+                {/* GOOGLE LOGIN */}
                 <form
                     action={(formData) => handleLogin("google", formData)}
                 >
