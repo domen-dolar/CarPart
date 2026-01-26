@@ -1,3 +1,8 @@
+/*
+  Server actions za delo s košarico in naročili.
+  Vse funkcije se izvajajo izključno na strežniku
+  in imajo direkten dostop do baze (Sanity).
+*/
 "use server";
 
 import { auth } from "@/auth";
@@ -5,22 +10,29 @@ import { client } from "@/sanity/lib/client";
 import { PRODUCT_BY_SLUG_QUERY } from "@/sanity/lib/queries";
 import { redirect } from "next/navigation";
 
+/* DODAJANJE IZDELKA V KOŠARICO */
+
 export async function addToBasket(formData: FormData) {
+  // Preverimo, ali je uporabnik prijavljen
   const session = await auth();
   if (!session?.user?.id) {
     throw new Error("Unauthorized");
   }
 
+  // Podatki iz obrazca
   const slug = formData.get("product") as string;
   const quantity = Number(formData.get("quantity"));
 
+  // Pridobimo izdelek iz baze glede na slug
   const product = await client.fetch(PRODUCT_BY_SLUG_QUERY, { slug });
 
+  // Poiščemo obstoječo košarico uporabnika
   const basket = await client.fetch(
     `*[_type == "basket" && user._ref == $userId][0]`,
     { userId: session.user.id }
   );
 
+  /* Če košarica še ne obstaja, jo ustvarimo */
   if (!basket) {
     await client.create({
       _type: "basket",
@@ -37,22 +49,26 @@ export async function addToBasket(formData: FormData) {
     return;
   }
 
+  // Preverimo, ali je izdelek že v košarici
   const existingItem = basket.items.find(
     (item: any) => item.product._ref === product._id
   );
 
   let updatedItems;
 
+  /* Če izdelek že obstaja, povečamo količino */
   if (existingItem) {
     updatedItems = basket.items.map((item: any) =>
       item.product._ref === product._id
         ? {
             ...item,
+            // količina ne sme preseči zaloge
             quantity: Math.min(item.quantity + quantity, product.stock),
           }
         : item
     );
   } else {
+     /* Če izdelek še ni v košarici, ga dodamo */
     updatedItems = [
       ...basket.items,
       {
@@ -64,6 +80,7 @@ export async function addToBasket(formData: FormData) {
     ];
   }
 
+  // Posodobimo košarico v bazi
   await client
     .patch(basket._id)
     .set({
@@ -73,12 +90,15 @@ export async function addToBasket(formData: FormData) {
     .commit();
 }
 
+/*  POSODOBITEV KOLIČINE IZDELKA V KOŠARICI */
 export async function updateBasketItemQuantity(formData: FormData) {
+  // Preverimo avtentikacijo
   const session = await auth();
   if (!session?.user?.id) {
     throw new Error("Unauthorized");
   }
 
+  // Pridobimo košarico uporabnika
   const basket = await client.fetch(
     `*[_type == "basket" && user._ref == $userId][0]`,
     { userId: session.user.id }
@@ -87,8 +107,10 @@ export async function updateBasketItemQuantity(formData: FormData) {
   const slug = formData.get("product") as string;
   const quantity = Number(formData.get("quantity"));
 
+  // Pridobimo izdelek (zaradi _id)
   const product = await client.fetch(PRODUCT_BY_SLUG_QUERY, { slug });
 
+  // Posodobimo samo količino izbranega izdelka
   const updatedItems = basket.items.map((item: any) =>
       item.product._ref === product._id
         ? {
@@ -107,12 +129,15 @@ export async function updateBasketItemQuantity(formData: FormData) {
     .commit();
 }
 
+/*  ODSTRANITEV IZDELKA IZ KOŠARICE */
 export async function removeBasketItem(formData: FormData) {
+  // Preverimo prijavo uporabnika
   const session = await auth();
   if (!session?.user?.id) {
     throw new Error("Unauthorized");
   }
 
+  // Pridobimo košarico
   const basket = await client.fetch(
     `*[_type == "basket" && user._ref == $userId][0]`,
     { userId: session.user.id }
@@ -120,8 +145,10 @@ export async function removeBasketItem(formData: FormData) {
 
   const slug = formData.get("product") as string;
 
+  // Pridobimo izdelek
   const product = await client.fetch(PRODUCT_BY_SLUG_QUERY, { slug });
 
+  // Odstranimo izdelek iz seznama
   const updatedItems = basket.items.filter(
     (item: any) => item.product._ref !== product._id
   );
@@ -131,6 +158,8 @@ export async function removeBasketItem(formData: FormData) {
     .commit();
 }
 
+
+/*  USTVARJANJE NAROČILA IZ KOŠARICE */
 export async function makeOrder() {
   const session = await auth();
 
@@ -138,6 +167,7 @@ export async function makeOrder() {
     throw new Error("Unauthorized");
   }
 
+  // Pridobimo košarico z izdelki in zalogo
   const basket = await client.fetch(
     `
     *[_type == "basket" && user._ref == $userId][0]{
@@ -156,10 +186,12 @@ export async function makeOrder() {
     { userId: session.user.id }
   );
 
+  // Košarica mora obstajati in ne sme biti prazna
   if (!basket || basket.items.length === 0) {
     throw new Error("basket is empty");
   }
 
+  // Preverimo zalogo za vsak izdelek
   for (const item of basket.items) {
     if (item.quantity > item.product.stock) {
       throw new Error(
@@ -168,12 +200,14 @@ export async function makeOrder() {
     }
   }
 
+  // Izračun skupne cene
   const total = basket.items.reduce(
     (sum: number, item: any) =>
       sum + item.price * item.quantity,
     0
   );
 
+  // Objekt naročila
   const order = {
     _type: "order",
     user: {
@@ -194,28 +228,34 @@ export async function makeOrder() {
     createdAt: new Date().toISOString(),
   };
 
-  // Transaction: order creation + stock update + basket clear
+  /*
+    Transakcija:
+    1. ustvari naročilo
+    2. zmanjša zalogo izdelkov
+    3. izprazni košarico
+  */
   const transaction = client.transaction();
 
   transaction.create(order);
 
-  // update stock
+  // posodobi zalogo
   for (const item of basket.items) {
     transaction.patch(item.product._id, {
       inc: { stock: -item.quantity },
     });
   }
 
-  // clear basket
+  // Počisti košarico
   transaction.patch(basket._id, {
     set: { items: [] },
   });
 
   await transaction.commit();
-
+  // Preusmeritev na pregled naročila
   redirect("/reviewOrder");
 }
 
+/*  PLAČILO NAROČILA */
 export async function payOrder() {
   const session = await auth();
   
@@ -224,6 +264,7 @@ export async function payOrder() {
     throw new Error("Unauthorized");
   }
 
+  // Pridobimo zadnje čakajoče naročilo
   const order = await client.fetch(
     `
     *[
@@ -242,6 +283,7 @@ export async function payOrder() {
     throw new Error("No pending order found");
   }
 
+  // Označimo naročilo kot plačano
   await client
     .patch(order._id)
     .set({
@@ -250,5 +292,6 @@ export async function payOrder() {
     })
     .commit();
 
+  // Preusmeritev na seznam naročil
   redirect("/orders");
 }
