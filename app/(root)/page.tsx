@@ -43,7 +43,7 @@ export default async function Home({ searchParams }: {
       {/* Grid produktov */}
       <ul className="grid grid-cols-2 gap-5">
         {products?.length > 0 ? (
-          produts.mp((product: any) => (
+          products.map((product: any) => (
             <ProductCard key={product._id} product={product} />
           ))) : <p>No products available.</p>
         }
