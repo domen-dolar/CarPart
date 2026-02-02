@@ -17,3 +17,4 @@ describe('Auth', () => {
     cy.get('[data-testid="login-button"]').should('exist')
   })
 })
+
