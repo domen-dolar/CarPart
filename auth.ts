@@ -50,6 +50,7 @@ async function ensureGoogleUser({
 
 // Nastavitve NextAuth
 export const { handlers, signIn, signOut, auth } = NextAuth({
+
     providers: [
         Credentials({
             name: "credentials",
