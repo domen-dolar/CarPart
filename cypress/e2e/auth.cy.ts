@@ -7,8 +7,7 @@ describe('Auth', () => {
   it('user can login and logout', () => {
     cy.visit('/')
 
-    // login brez klikanja gumba
-    cy.login()
+    cy.get('[data-testid="login-button"]').click()
 
     cy.contains('Welcome').should('exist')
 
