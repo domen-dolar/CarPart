@@ -72,9 +72,9 @@ const NavBar = async () => {
                                 </button>
                             </form>
                         </> :      
-                            <Link href="/login">
+                            <Link  href="/login" data-testid="login-button">
                                 {/* Neprijavljen uporabnik → login */}
-                                <span className="button" data-testid="login-button">
+                                <span  className="button" >
                                     Login
                                     <FontAwesomeIcon className="ml-1" icon={faSignInAlt} />
                                 </span>
