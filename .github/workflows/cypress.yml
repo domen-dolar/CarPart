@@ -8,7 +8,7 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     env:
-        NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC-SANITY_PROJECT_ID }}
+        NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
         NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
         AUTH_SECRET=: ${{ secrets.AUTH_SECRET }}
 
