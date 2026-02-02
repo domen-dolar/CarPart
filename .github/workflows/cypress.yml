@@ -1,4 +1,4 @@
-name: Cypress E2E
+name: Cypress Tests
 
 on:
   push:
@@ -8,25 +8,21 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     env:
-        NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
-        NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
-        AUTH_SECRET=: ${{ secrets.AUTH_SECRET }}
+      NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
+      NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
+      AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+      AUTH_GOOGLE_ID: ${{ secrets.AUTH_GOOGLE_ID }}
+      AUTH_GOOGLE_SECRET: ${{ secrets.AUTH_GOOGLE_SECRET }}
+      SANITY_EDIT_TOKEN: ${{ secrets.SANITY_EDIT_TOKEN }}
 
-        AUTH_GOOGLE_ID: ${{ secrets.AUTH_GOOGLE_ID }}
-        AUTH_GOOGLE_SECRET: ${{ secrets.AUTH_GOOGLE_SECRET }}
-
-        SANITY_EDIT_TOKEN: ${{ secrets.SANITY_EDIT_TOKEN }}
-      
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-            node-version: 20.9.0
-            cache: npm
-
+          node-version: 20.9.0
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
@@ -40,5 +36,23 @@ jobs:
       - name: Wait for app
         run: npx wait-on http://localhost:3000
 
-      - name: Run Cypress
+      - name: Run Cypress E2E
         run: npm run test:e2e
+
+  component:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.9.0
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Cypress Component tests
+        run: npm run test:component

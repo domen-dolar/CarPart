@@ -72,7 +72,7 @@ const NavBar = async () => {
                                 </button>
                             </form>
                         </> :      
-                            <Link  href="/" data-testid="login-button">
+                            <Link  href="/login" data-testid="login-button">
                                 {/* Neprijavljen uporabnik → login */}
                                 <span  className="button" >
                                     Login
