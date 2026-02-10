@@ -55,18 +55,18 @@ const Basket = async () => {
                             {/* Izpis vseh izdelkov v košarici */}
                             {basket.items.map((item: any) => (
                                 <li className="basketItemCard" key={item.product._id}>
-                                    <div className="w-9/10 grid grid-cols-3">
+                                    <div className="w-full sm:w-9/10 grid grid-cols-1 sm:grid-cols-3 gap-2">
                                     {/* Slika izdelka */}
-                                        <img src={item.product.images[0].asset.url} alt={item.product.name} className="rounded-sm max-h-40" />
+                                        <img src={item.product.images[0].asset.url} alt={item.product.name} className="rounded-sm w-full max-h-40 object-cover" />
                                         {/* Ime izdelka */}
-                                        <p className="my-auto text-lg">{item.product.name}</p>
+                                        <p className="my-auto text-lg w-full">{item.product.name}</p>
                                         {/* Cena in količina */}
-                                        <div className="my-auto grid grid-cols-2">
+                                        <div className="my-auto grid grid-cols-1 sm:grid-cols-2 gap-1 sm:gap-0">
                                             <div>
                                                 <p>Price per item:</p>
                                                 <p>Quantity:</p>
                                             </div>
-                                            <div className="space-y-2 text-center">
+                                            <div className="space-y-2 text-left sm:text-center">
                                                 <p>{item.price} €</p>
                                                 {/* Spreminjanje količine */}
                                                 <BasketItemQuantity prevQuantity={item.quantity} stock={item.product.stock} slug={item.product.slug.current} />

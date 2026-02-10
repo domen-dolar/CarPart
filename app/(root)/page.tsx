@@ -41,7 +41,7 @@ export default async function Home({ searchParams }: {
       <SearchOrFilter query={query} sort={sort} />
 
       {/* Grid produktov */}
-      <ul className="grid grid-cols-2 gap-5">
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {products?.length > 0 ? (
           products.map((product: any) => (
             <ProductCard key={product._id} product={product} />
