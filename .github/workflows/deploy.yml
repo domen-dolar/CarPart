@@ -18,9 +18,10 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
+          passphrase: ${{ secrets.DEPLOY_PASSPHRASE }}
           port: 2200
           script: |
-            cd /var/www/domendolar/carpart
+            cd /var/www/domendolar/CarPart
 
             echo "🔧 Loading NVM..."
             export NVM_DIR="$HOME/.nvm"
