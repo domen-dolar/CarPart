@@ -24,9 +24,9 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
     return (
         <div className="productPage">
             {/* ZGORNJI DEL – slike + osnovni podatki */}
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Leva stran – ime in slike */}
-                <div className="space-y-2 text-lg text-center">
+                <div className="space-y-2 text-lg text-center sm:text-left">
                     <p>{product.name}</p>
 
                     <ProductImageSwiper images={product.images} />
@@ -42,17 +42,18 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
                     </div>
                 </div>
             </div>
-            <hr />
+            <hr className="my-4" />
             {/* SPODNJI DEL – opis in dodatni podatki */}
             <div className="whitespace-pre-wrap">
                 <p className="text-lg">Product details:</p>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                      {/* Opis izdelka */}
-                    <div className="border-r">
+                    <div className="sm:border-r">
                         {product.description}
                     </div>
                     {/* Kategorija in kompatibilnost */}
                     <div>
+                        <hr className="sm:hidden" />
                         <p>Category: {product.category.name}</p>
                         <div className="my-5">
                             <p>Compatible cars:</p>
