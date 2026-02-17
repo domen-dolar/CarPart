@@ -27,7 +27,7 @@ const BasketButton = ({ basketFill }: {basketFill: boolean}) => {
       data-filled atribut se lahko uporabi za testiranje ali stiliranje.
     */
         <Link className="button" href="/basket" data-testid="basket-button" data-filled={basketFill}>
-            Basket
+            <span className="hidden sm:inline">Basket</span>
             <FontAwesomeIcon className={basketStyle} icon={faBasketShopping} />
         </Link>
     )

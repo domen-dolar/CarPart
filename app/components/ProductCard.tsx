@@ -18,11 +18,11 @@ const ProductCard = ({ product }: { product: any }) => {
             <div className="text-center text-lg" data-testid="product-name">
                 {product.name}
                 </div>
-                <div className="grid grid-cols-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {/* Slika izdelka */}
                 <div>
                     {product.images?.[0]?.asset?.url && (
-                    <img src={product.images[0].asset.url} alt={product.name} className="rounded-sm max-h-40" data-testid="product-image" />
+                    <img src={product.images[0].asset.url} alt={product.name} className="rounded-sm max-h-40 w-full object-cover" data-testid="product-image" />
                     )}
                 </div>
                 {/* Podrobnosti izdelka */}

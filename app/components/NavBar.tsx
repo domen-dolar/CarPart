@@ -42,7 +42,7 @@ const NavBar = async () => {
                 {/* Logotip in domača stran */}
                 <Link href="/" className="flex items-center">
                     <Image src="/logo.png" alt="logo" width={48} height={48} />
-                    <span className="ml-3">CarPart</span>
+                    <span className="ml-3 hidden sm:inline">CarPart</span>
                 </Link>
 
                 <div className="flex items-center gap-5">
@@ -52,7 +52,7 @@ const NavBar = async () => {
 
                             {/* Povezava do naročil */}
                             <Link className="button" href="/orders">
-                                My orders
+                                <span className="hidden sm:inline">My orders</span>
                                 <FontAwesomeIcon className="ml-1" icon={faList} />
                             </Link>
 
@@ -67,7 +67,7 @@ const NavBar = async () => {
                                 } }
                             >
                                 <button className="button" type="submit" data-testid="logout-button">
-                                    Logout
+                                    <span className="hidden sm:inline">Logout</span>
                                     <FontAwesomeIcon className="ml-1" icon={faSignOutAlt} />
                                 </button>
                             </form>
