@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.imgur.com/rSyq3MW.png" alt="CarPart Banner" width="220" />
+  <img src="/public/logo.png" alt="CarPart Banner" width="220" />
 </p>
 
 <h1 align="center">CarPart</h1>
